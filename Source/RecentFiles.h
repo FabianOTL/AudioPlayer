@@ -14,6 +14,7 @@
 #include <queue>
 #include <set>
 
+#include "consts.h"
 
 //==============================================================================
 /*
@@ -39,6 +40,5 @@ private:
 
 	std::queue<juce::File> filesQ;
 	std::set<juce::File> filesSet; 
-	std::string appData = juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory).getFullPathName().toStdString();
 	std::vector<std::unique_ptr<juce::TextButton>> buttons;	
 };

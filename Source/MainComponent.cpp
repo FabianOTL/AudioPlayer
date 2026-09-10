@@ -6,8 +6,6 @@ MainComponent::MainComponent() : state(TransportState::Stopped),
 								 stateBeforeDrag(TransportState::Stopped),
 								 recentFiles()
 {
-    // Make sure you set the size of the component after
-    // you add any child components.
     setSize (1000, 600);
 
     // Some platforms require permissions to open input channels so request that here
@@ -31,12 +29,14 @@ MainComponent::MainComponent() : state(TransportState::Stopped),
 	addAndMakeVisible(&nameLabel);
 	nameLabel.setBounds(150, 25, 700, 40);
 
+    // Button to open an audio file
     addAndMakeVisible(&openButton);
 	openButton.onClick = [this] { openButtonClicked(); };
     openButton.setBounds(25, 25, 100, 40);
     openButton.setButtonText("Open");
     openButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
 
+    // Button to play the loaded file 
 	addAndMakeVisible(&playButton);
 	playButton.onClick = [this] { playButtonClicked(); } ;
 	playButton.setBounds(250, 500, 100, 40);
@@ -44,6 +44,7 @@ MainComponent::MainComponent() : state(TransportState::Stopped),
 	playButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);	
 	playButton.setEnabled(false);	
 
+    // Button to pause the loaded file 
 	addAndMakeVisible(&stopButton);
 	stopButton.onClick = [this] { stopButtonClicked(); } ; 
 	stopButton.setBounds(400, 500, 100, 40);
@@ -51,6 +52,7 @@ MainComponent::MainComponent() : state(TransportState::Stopped),
 	stopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
 	stopButton.setEnabled(false);
 
+    // Timeline 
 	timeline.addListener(this);
 	timeline.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
 	timeline.setRange(0.0f, 1.0f);
@@ -69,23 +71,29 @@ MainComponent::MainComponent() : state(TransportState::Stopped),
 			return juce::String::formatted("%02d:%02d:%02d", h, m, s);
 		return juce::String::formatted("%02d:%02d", m, s); 
 	};
-
+ 
+    // Volume slider 
 	volumeSlider.addListener(this);
-	volumeSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+	volumeSlider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
 	volumeSlider.setRange(0.0f, 1.0f);
 	volumeSlider.setValue(0.5f);
-	volumeSlider.setBounds(650, 350, 25, 100);
-	volumeSlider.setNumDecimalPlacesToDisplay(2);
+	volumeSlider.setBounds(600, 450, 125, 50);
+    volumeSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::NoTextBox, true, 50, 50);
 	addAndMakeVisible(&volumeSlider);
 	
+    // Add the recent files menu 
 	recentFiles.setBounds(800, 0, 200, 600);
-	recentFiles.loadFile = [this] (const juce::File& file)
+	recentFiles.loadFile = [this] (const juce::File& file) // make RecentFiles able to load a file into our AudioSource
 	{
 		loadFileInSource(file);	
 	};
 	addAndMakeVisible(&recentFiles); 
 
-	startTimerHz(30);
+	startTimerHz(30); // Used to update the timeline GUI
+
+    // Playlists Menu 
+    playlists.setBounds(100, 100, 675, 300);
+    addAndMakeVisible(&playlists);
 }
 
 MainComponent::~MainComponent()
@@ -123,20 +131,20 @@ void MainComponent::sliderDragStarted(juce::Slider* source)
 {	
 	if(source == &timeline) {
 		stateBeforeDrag = state; 
-		transportSource.stop();
+		transportSource.stop(); // pause the sound while the user is changing the timeline
 	}
 }
 
 void MainComponent::sliderDragEnded(juce::Slider* source)
 {
 	if(source == &timeline && stateBeforeDrag == TransportState::Playing)
-		transportSource.start();
+		transportSource.start(); // play the sound again when the user changed the timeline
 }
 
 void MainComponent::timerCallback()
 {
 	if(state == TransportState::Playing)
-		timeline.setValue(transportSource.getCurrentPosition());
+		timeline.setValue(transportSource.getCurrentPosition()); // update the timeline when the audio is playing 
 }
 
 void MainComponent::changeState(TransportState newState)
@@ -165,6 +173,7 @@ void MainComponent::changeState(TransportState newState)
 
 }
 
+// takes a file and load it into AudioSource 
 void MainComponent::loadFileInSource(juce::File file)
 {
 	auto* reader = formatManager.createReaderFor(file);
@@ -185,10 +194,11 @@ void MainComponent::loadFileInSource(juce::File file)
 	}       
 }
 
+// opens a file and loads it in the AudioSource 
 void MainComponent::openButtonClicked()
 {
 	chooser = std::make_unique<juce::FileChooser> ("Select wav file...", juce::File {}, "*.wav;*.mp3");
-	auto chooserFlag = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
+    auto chooserFlag = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
 
 	auto open = [this] (const juce::FileChooser& fc) 
 	{	

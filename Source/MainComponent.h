@@ -2,6 +2,7 @@
 
 #include <JuceHeader.h>
 #include "RecentFiles.h" 
+#include "Playlists.h"
 
 //==============================================================================
 /*
@@ -32,6 +33,7 @@ public:
 	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;	
 	std::unique_ptr<juce::FileChooser> chooser;
 	RecentFiles recentFiles;	
+    Playlists playlists;
 
 	void changeState(TransportState state);
 	void openButtonClicked();

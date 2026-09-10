@@ -21,8 +21,8 @@ RecentFiles::RecentFiles()
 
 	// Read the recents.txt file and add the files to the list
 
-	std::ifstream fin(appData + "/recents.txt");
-	
+	std::ifstream fin(appData.toStdString() + "/recents.txt");
+
 	char path[1024];
 
 	while(fin.getline(path, 1024))
@@ -41,7 +41,8 @@ RecentFiles::RecentFiles()
 
 RecentFiles::~RecentFiles()
 {
-	std::ofstream fout(appData + "/recents.txt");
+    // Save the changes made to recents.txt
+	std::ofstream fout(appData.toStdString() + "/recents.txt");
 	
 	while(filesQ.size())
 	{
@@ -50,6 +51,7 @@ RecentFiles::~RecentFiles()
 	}
 }
 
+// Adds a new button and insert file into queue 
 void RecentFiles::addFile(juce::File file) 
 {
 	if(filesSet.count(file) == 0 && file.existsAsFile()) {
@@ -66,8 +68,12 @@ void RecentFiles::addFile(juce::File file)
 		resized();
 	}
 
-	if(filesQ.size() > MaxSize) 
-		filesQ.pop(); 
+    // Remove a file from the queue when there are too many
+	if(filesQ.size() > MaxSize) {	
+        
+        filesSet.erase(filesQ.front());
+        filesQ.pop();
+    }
 }
 
 void RecentFiles::paint (juce::Graphics& g)
@@ -81,6 +87,7 @@ void RecentFiles::paint (juce::Graphics& g)
     g.setFont (juce::FontOptions (14.0f));
 }
 
+// Arrange the buttons 
 void RecentFiles::resized()
 {
 	auto area = getLocalBounds();
