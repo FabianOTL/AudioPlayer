@@ -44,7 +44,7 @@ public:
 
         // Picture 
         
-        pictureBox.setText(projectDir + "/default.jpeg",  juce::NotificationType::dontSendNotification);
+        pictureBox.setText(projectDir + "/Resources/default.jpeg",  juce::NotificationType::dontSendNotification);
         addAndMakeVisible(&pictureBox);
         pictureButton.setButtonText("Select cover");
         pictureButton.setWantsKeyboardFocus(false);

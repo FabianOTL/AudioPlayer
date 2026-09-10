@@ -21,12 +21,11 @@
 class Playlists  : public juce::Component
 {
 public:
-
     juce::ValueTree library;
     ListMenu listMenu;
     AddMenu addMenu;
     ViewMenu viewMenu;
-    MenuState menuState;
+    MenuState menuState; 
 
     Playlists();
     ~Playlists() override;

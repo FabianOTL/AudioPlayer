@@ -11,7 +11,7 @@
 #include <JuceHeader.h>
 #include "Playlists.h"
 
-Playlists::Playlists() : menuState(List), library(ID::Library), addMenu(library)
+Playlists::Playlists() : menuState(List), library(ID::Library), addMenu(library), listMenu(library)
 {
     setSize(675, 300);
 
@@ -27,12 +27,15 @@ Playlists::Playlists() : menuState(List), library(ID::Library), addMenu(library)
         xml = juce::XmlDocument::parse(juce::File(appData + "/library.xml"));
     }
 
-    library = juce::ValueTree::fromXml(*xml);
+    auto loadedTree = juce::ValueTree::fromXml(*xml);
+    library.copyPropertiesAndChildrenFrom(loadedTree, nullptr);
 
     // Add the different menus 
     addAndMakeVisible(&listMenu);
     addChildComponent(&addMenu);
     addChildComponent(&viewMenu);
+
+    listMenu.createPlaylists();
 
     addMenu.backButton.onClick = [this] () {
         changeMenuState(MenuState::List);
@@ -88,7 +91,8 @@ void Playlists::changeMenuState(MenuState newMenuState)
 
     switch(menuState)
     {
-        case MenuState::List: 
+        case MenuState::List:
+            listMenu.createPlaylists();
             listMenu.setVisible(true);
             break;
 

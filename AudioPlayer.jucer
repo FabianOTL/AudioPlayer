@@ -4,13 +4,19 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
   <MAINGROUP id="F22f2f" name="AudioPlayer">
     <GROUP id="{6E4A01AB-E361-86DD-D3FF-DAE27CF4636F}" name="Source">
+      <FILE id="MDO8Ce" name="ListMenu.h" compile="0" resource="0" file="Source/ListMenu.h"/>
       <FILE id="josZf0" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="GO2BY8" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="WMGBFE" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
     </GROUP>
+    <FILE id="YN3uCD" name="AddMenu.h" compile="0" resource="0" file="Source/AddMenu.h"/>
+    <FILE id="h7KHKY" name="consts.h" compile="0" resource="0" file="Source/consts.h"/>
+    <FILE id="kaKnF7" name="Playlists.cpp" compile="1" resource="0" file="Source/Playlists.cpp"/>
+    <FILE id="NOYZkO" name="Playlists.h" compile="0" resource="0" file="Source/Playlists.h"/>
     <FILE id="mRhgtv" name="RecentFiles.cpp" compile="1" resource="0" file="Source/RecentFiles.cpp"/>
     <FILE id="AdGFyj" name="RecentFiles.h" compile="0" resource="0" file="Source/RecentFiles.h"/>
+    <FILE id="VUhj7y" name="ViewMenu.h" compile="0" resource="0" file="Source/ViewMenu.h"/>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="1" useGlobalPath="1"/>
@@ -27,9 +33,10 @@
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="1" useGlobalPath="1"/>
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="1" useGlobalPath="1"/>
   </MODULES>
-  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_USE_MP3AUDIOFORMAT="1"/>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_USE_MP3AUDIOFORMAT="1"
+               JUCE_WEB_BROWSER="0"/>
   <EXPORTFORMATS>
-    <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile" linuxExtraPkgConfig="freetype2">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="AudioPlayer"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="AudioPlayer"/>
