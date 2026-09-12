@@ -27,13 +27,13 @@ public:
     ViewMenu viewMenu;
     MenuState menuState; 
 
+    void changeMenuState(MenuState newState, juce::ValueTree vt=juce::ValueTree()); 
     Playlists();
     ~Playlists() override;
 
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    void changeMenuState(MenuState newState); 
 
 private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Playlists)

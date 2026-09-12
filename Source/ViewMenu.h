@@ -18,41 +18,52 @@
 class ViewMenu  : public juce::Component
 {
 public:
+
+    juce::ImageComponent imageComponent;
+    juce::Label playlistNameLabel;
+    juce::TextButton backButton;
+
+    std::function<void(const MenuState)> changeState;
+
     ViewMenu()
     {
-        // In your constructor, you should add any child components, and
-        // initialise any special settings that your component needs.
+        setSize(625, 300);
 
+        backButton.setButtonText("Back"); 
+        addAndMakeVisible(&backButton);
     }
 
     ~ViewMenu() override
     {
+
+    }
+
+    void build(juce::ValueTree playlist)
+    {
+        juce::String imagePath = playlist.getPropertyAsValue(ID::PlaylistCover, nullptr).toString();
+        juce::Image image = juce::ImageFileFormat::loadFrom(juce::File(imagePath)); 
+        imageComponent.setImage(image);
+        imageComponent.setImagePlacement(juce::RectanglePlacement(64));
+ 
+        addAndMakeVisible(&imageComponent);
+
+        juce::String playlistName = playlist.getPropertyAsValue(ID::PlaylistName, nullptr).toString();
+        playlistNameLabel.setText(playlistName, juce::NotificationType::dontSendNotification);
+        playlistNameLabel.setJustificationType(juce::Justification(36));
+        addAndMakeVisible(&playlistNameLabel);
     }
 
     void paint (juce::Graphics& g) override
     {
-        /* This demo code just fills the component's background and
-           draws some placeholder text to get you started.
 
-           You should replace everything in this method with your own
-           drawing code..
-        */
-
-        g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
-
-        g.setColour (juce::Colours::grey);
-        g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
-        g.setColour (juce::Colours::white);
-        g.setFont (juce::FontOptions (14.0f));
-        g.drawText ("ViewMenu", getLocalBounds(),
-                    juce::Justification::centred, true);   // draw some placeholder text
     }
 
     void resized() override
     {
-        // This method is where you should set the bounds of any child
-        // components that your component contains..
+        auto left = getLocalBounds().removeFromLeft(150);
+        imageComponent.setBounds(left.removeFromTop(150));
+        playlistNameLabel.setBounds(left.removeFromTop(50));
+        backButton.setBounds(left.removeFromBottom(50));
 
     }
 

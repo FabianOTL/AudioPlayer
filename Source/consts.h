@@ -26,7 +26,6 @@ namespace ID
     inline juce::Identifier PlaylistName("playlistName");
     inline juce::Identifier PlaylistCover("cover");
     inline juce::Identifier Track("track");
-    inline juce::Identifier TrackLabel("trackLabel"); // given by user
     inline juce::Identifier TrackPath("trackPath");
 };
 

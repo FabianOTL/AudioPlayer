@@ -17,6 +17,7 @@ class ListMenu  : public juce::Component
 public:
     juce::ValueTree library;
     std::function<void(const MenuState)> changeState;
+    std::function<void(const MenuState, juce::ValueTree)> changeStateView;
 
     ListMenu(juce::ValueTree vt) : library(vt) 
     {
@@ -81,6 +82,7 @@ public:
 
         //Add the label for new playlist button 
         auto label = std::make_unique<juce::Label>("Label","New Playlist");
+        label->setJustificationType(juce::Justification(36));
         addAndMakeVisible(label.get());
         labels.push_back(std::move(label));
 
@@ -98,11 +100,16 @@ public:
                 playlistImage, 1.0f, juce::Colours::transparentWhite,
                 playlistImage, 1.0f, juce::Colours::transparentWhite);
 
+            playlistButton->onClick = [this, playlistVT] () {
+                changeStateView(MenuState::View, playlistVT);
+            };
+
             addAndMakeVisible(playlistButton.get());
             playlistButtons.push_back(std::move(playlistButton));
 
             juce::String labelText = playlistVT.getPropertyAsValue(ID::PlaylistName, nullptr).toString();
             auto label = std::make_unique<juce::Label>("Label",labelText);
+            label->setJustificationType(juce::Justification(36));
             addAndMakeVisible(label.get());
             labels.push_back(std::move(label));
         }

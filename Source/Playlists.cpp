@@ -44,6 +44,16 @@ Playlists::Playlists() : menuState(List), library(ID::Library), addMenu(library)
     listMenu.changeState = [this] (const MenuState newMenuState) {
         changeMenuState(newMenuState);
     };
+
+    listMenu.changeStateView = [this] (const MenuState newMenuState, juce::ValueTree vt)
+    {
+        changeMenuState(newMenuState, vt);
+    };
+
+    viewMenu.backButton.onClick = [this] ()
+    {
+        changeMenuState(MenuState::List);
+    };
 }
 
 Playlists::~Playlists()
@@ -67,7 +77,7 @@ void Playlists::resized()
 
 }
 
-void Playlists::changeMenuState(MenuState newMenuState)
+void Playlists::changeMenuState(MenuState newMenuState, juce::ValueTree vt)
 {
     if(newMenuState == menuState) return;
 
@@ -101,6 +111,7 @@ void Playlists::changeMenuState(MenuState newMenuState)
             break;
 
         case MenuState::View: 
+            viewMenu.build(vt);
             viewMenu.setVisible(true);
             break;
     }
