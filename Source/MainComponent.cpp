@@ -93,6 +93,10 @@ MainComponent::MainComponent() : state(TransportState::Stopped),
 
     // Playlists Menu 
     playlists.setBounds(100, 100, 675, 300);
+    playlists.viewMenu.loadFile = [this] (const juce::File& file)
+    {
+       loadFileInSource(file); 
+    };
     addAndMakeVisible(&playlists);
 }
 
@@ -197,7 +201,7 @@ void MainComponent::loadFileInSource(juce::File file)
 // opens a file and loads it in the AudioSource 
 void MainComponent::openButtonClicked()
 {
-	chooser = std::make_unique<juce::FileChooser> ("Select wav file...", juce::File {}, "*.wav;*.mp3");
+	chooser = std::make_unique<juce::FileChooser> ("Select audio file...", juce::File {}, "*.wav;*.mp3");
     auto chooserFlag = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
 
 	auto open = [this] (const juce::FileChooser& fc) 
