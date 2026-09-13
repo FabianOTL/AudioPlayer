@@ -77,11 +77,24 @@ public:
         {
             juce::String trackPath = playlist.getChild(i).getPropertyAsValue(ID::TrackPath, nullptr).toString();
 
-            std::unique_ptr<juce::TextButton> btn = std::make_unique<juce::TextButton>("Button");
+            auto btn = std::make_unique<juce::TextButton>("Button");
             btn->setButtonText(juce::File(trackPath).getFileName());
+            btn->onClick = [this, trackPath] ()
+            {
+                loadFile(juce::File(trackPath));
+            };
             addAndMakeVisible(btn.get());
 
+            auto del = std::make_unique<juce::TextButton>("Button");
+            del -> setButtonText("Delete");
+            auto toDelete =  playlistVT.getChild(i);
+            del -> onClick = [this, toDelete] () {
+                deleteTrack(toDelete);
+            };
+            addAndMakeVisible(del.get());
+
             tracks.push_back(std::move(btn));
+            deletes.push_back(std::move(del));
         }
 
         resized();
@@ -100,15 +113,26 @@ public:
             {
                 juce::ValueTree trackVT(ID::Track);
                 trackVT.setProperty(ID::TrackPath, file.getFullPathName(), nullptr);
-                std::cout << file.getFullPathName() << '\n';
 
-                std::unique_ptr<juce::TextButton> btn = std::make_unique<juce::TextButton>("Button");
+                auto btn = std::make_unique<juce::TextButton>("Button");
                 btn->setButtonText(file.getFileName());
+                btn->onClick=[this, file] (){
+                    loadFile(file);
+                };
                 addAndMakeVisible(btn.get());
+
+                auto del = std::make_unique<juce::TextButton>("Button");
+                del -> setButtonText("Delete");
+                del -> onClick = [this, trackVT] ()
+                {
+                    deleteTrack(trackVT);
+                };
+                addAndMakeVisible(del.get());
 
                 playlistVT.appendChild(trackVT, nullptr);  
                 tracks.push_back(std::move(btn));
-               
+                deletes.push_back(std::move(del));
+
                 if(auto xml = playlistVT.getParent().createXml())
                     xml -> writeTo(juce::File(appData + "/library.xml"));
 
@@ -136,12 +160,27 @@ public:
         backButton.setBounds(left.removeFromBottom(50));
 
         //right side
-        for(int i=0;i<tracks.size();i++)
-            tracks[i]->setBounds(right.removeFromTop(50));
-        
+        for(int i=0;i<tracks.size();i++){
+            auto row = right.removeFromTop(50);
+            tracks[i]->setBounds(row.removeFromLeft(300));
+            deletes[i] -> setBounds(row.removeFromLeft(100));
+        }
     }
 
+    void deleteTrack(juce::ValueTree toDelete)
+    {
+        int index = playlistVT.indexOf(toDelete);
+
+        playlistVT.removeChild(index, nullptr);
+        tracks.erase(tracks.begin() + index);
+        deletes.erase(deletes.begin() + index);
+
+        if(auto xml = playlistVT.getParent().createXml())
+            xml -> writeTo(juce::File(appData + "/library.xml"));
+
+        resized();
+    }
 private:
-    std::vector<std::unique_ptr<juce::TextButton>> tracks;
+    std::vector<std::unique_ptr<juce::TextButton>> tracks, deletes;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ViewMenu)
 };
