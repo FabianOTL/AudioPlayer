@@ -183,6 +183,8 @@ void MainComponent::loadFileInSource(juce::File file)
 	auto* reader = formatManager.createReaderFor(file);
     if(reader != nullptr) 
 	{
+        recentFiles.addFile(file);
+
 		auto newSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
 		transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
 		playButton.setEnabled(true);
@@ -210,7 +212,6 @@ void MainComponent::openButtonClicked()
 
 		if(file != juce::File {})
 		{
-			recentFiles.addFile(file);
 			loadFileInSource(file);	
 		}
 	};

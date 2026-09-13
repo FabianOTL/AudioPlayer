@@ -15,7 +15,9 @@
 class ListMenu  : public juce::Component
 {
 public:
-    juce::ValueTree library;
+
+
+    juce::ValueTree library, currentPlaylist;
     std::function<void(const MenuState)> changeState;
     std::function<void(const MenuState, juce::ValueTree)> changeStateView;
 
@@ -102,6 +104,7 @@ public:
 
             playlistButton->onClick = [this, playlistVT] () {
                 changeStateView(MenuState::View, playlistVT);
+                currentPlaylist = playlistVT;
             };
 
             addAndMakeVisible(playlistButton.get());
@@ -117,8 +120,32 @@ public:
         resized();
     }
 
+    void deletePlaylist()
+    {
+        int index = library.indexOf(currentPlaylist) + 1; // +1 because of add new playlist button, which offsets the playlist buttons 
+        playlistButtons.erase(playlistButtons.begin() + index);
+        labels.erase(labels.begin() + index);
+        
+        library.removeChild(currentPlaylist, nullptr);
+        
+        if(auto xml = library.createXml())
+            xml -> writeTo(juce::File(appData + "/library.xml"));
+        
+        resized();
+    }
+bool isLoaded()
+{
+    return loaded;
+}
+
+void setLoaded(bool value)
+{
+    loaded = value;
+}
+
 private:
     std::vector<std::unique_ptr<juce::ImageButton>> playlistButtons; 
     std::vector<std::unique_ptr<juce::Label>> labels;
+    bool loaded = false;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ListMenu)
 };

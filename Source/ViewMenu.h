@@ -21,7 +21,7 @@ public:
 
     juce::ImageComponent imageComponent;
     juce::Label playlistNameLabel;
-    juce::TextButton backButton, addTrackButton;
+    juce::TextButton backButton, addTrackButton, deletePlaylistButton;
     juce::ValueTree playlistVT;
     std::unique_ptr<juce::FileChooser> chooser;
 
@@ -41,6 +41,10 @@ public:
             addTrack();
         };
         addAndMakeVisible(&addTrackButton);
+
+        deletePlaylistButton.setButtonText("Delete");
+
+        addAndMakeVisible(&deletePlaylistButton);
     }
 
     ~ViewMenu() override
@@ -54,10 +58,13 @@ public:
 
         // Clean the tracks vector 
         
-        while(tracks.size())
+        while(tracks.size()){
             tracks.pop_back();
+            deletes.pop_back();
+        }
 
         // The left side of the menu (cover, title and back button)
+
         juce::String imagePath = playlist.getPropertyAsValue(ID::PlaylistCover, nullptr).toString();
         juce::Image image = juce::ImageFileFormat::loadFrom(juce::File(imagePath)); 
         imageComponent.setImage(image);
@@ -156,12 +163,14 @@ public:
         //left side
         imageComponent.setBounds(left.removeFromTop(150));
         playlistNameLabel.setBounds(left.removeFromTop(50));
-        addTrackButton.setBounds(left.removeFromTop(50));
+        auto row = left.removeFromTop(50);
+        addTrackButton.setBounds(row.removeFromLeft(75));
+        deletePlaylistButton.setBounds(row.removeFromLeft(75));
         backButton.setBounds(left.removeFromBottom(50));
 
         //right side
         for(int i=0;i<tracks.size();i++){
-            auto row = right.removeFromTop(50);
+            row = right.removeFromTop(50);
             tracks[i]->setBounds(row.removeFromLeft(300));
             deletes[i] -> setBounds(row.removeFromLeft(100));
         }
@@ -180,6 +189,7 @@ public:
 
         resized();
     }
+
 private:
     std::vector<std::unique_ptr<juce::TextButton>> tracks, deletes;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ViewMenu)

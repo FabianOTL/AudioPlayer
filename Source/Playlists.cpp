@@ -54,6 +54,12 @@ Playlists::Playlists() : menuState(List), library(ID::Library), addMenu(library)
     {
         changeMenuState(MenuState::List);
     };
+
+    viewMenu.deletePlaylistButton.onClick = [this] ()
+    {
+        changeMenuState(MenuState::List);
+        listMenu.deletePlaylist();
+    };
 }
 
 Playlists::~Playlists()
@@ -102,7 +108,10 @@ void Playlists::changeMenuState(MenuState newMenuState, juce::ValueTree vt)
     switch(menuState)
     {
         case MenuState::List:
-            listMenu.createPlaylists();
+            if(!listMenu.isLoaded()){
+                listMenu.createPlaylists();
+                listMenu.setLoaded(true);
+            }
             listMenu.setVisible(true);
             break;
 
