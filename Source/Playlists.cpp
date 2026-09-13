@@ -41,6 +41,13 @@ Playlists::Playlists() : menuState(List), library(ID::Library), addMenu(library)
         changeMenuState(MenuState::List);
     };
 
+    addMenu.addPlaylistButton = [this] (juce::ValueTree playlist)
+    {
+        listMenu.addPlaylistButton(playlist);
+        changeMenuState(MenuState::List);
+        listMenu.resized();
+    };
+
     listMenu.changeState = [this] (const MenuState newMenuState) {
         changeMenuState(newMenuState);
     };
@@ -93,7 +100,8 @@ void Playlists::changeMenuState(MenuState newMenuState, juce::ValueTree vt)
             listMenu.setVisible(false);
             break;
 
-        case MenuState::Add: 
+        case MenuState::Add:
+            addMenu.reset();
             addMenu.setVisible(false);
             break;
 

@@ -91,33 +91,38 @@ public:
         // Add the other buttons and labels 
         for(int i = 0;i<library.getNumChildren();i++)
         {
-            std::unique_ptr<juce::ImageButton> playlistButton = std::make_unique<juce::ImageButton>("Button");
             juce::ValueTree playlistVT = library.getChild(i);
-            juce::String imagePath = playlistVT.getPropertyAsValue(ID::PlaylistCover, nullptr).toString();
-            juce::Image playlistImage = juce::ImageFileFormat::loadFrom(juce::File(imagePath));
-
-            playlistButton->setImages(
-                false,true,false,
-                playlistImage, 1.0f, juce::Colours::transparentWhite,
-                playlistImage, 1.0f, juce::Colours::transparentWhite,
-                playlistImage, 1.0f, juce::Colours::transparentWhite);
-
-            playlistButton->onClick = [this, playlistVT] () {
-                changeStateView(MenuState::View, playlistVT);
-                currentPlaylist = playlistVT;
-            };
-
-            addAndMakeVisible(playlistButton.get());
-            playlistButtons.push_back(std::move(playlistButton));
-
-            juce::String labelText = playlistVT.getPropertyAsValue(ID::PlaylistName, nullptr).toString();
-            auto label = std::make_unique<juce::Label>("Label",labelText);
-            label->setJustificationType(juce::Justification(36));
-            addAndMakeVisible(label.get());
-            labels.push_back(std::move(label));
+            addPlaylistButton(playlistVT);
         }
 
         resized();
+    }
+
+    void addPlaylistButton(juce::ValueTree playlistVT)
+    {
+        std::unique_ptr<juce::ImageButton> playlistButton = std::make_unique<juce::ImageButton>("Button");
+        juce::String imagePath = playlistVT.getPropertyAsValue(ID::PlaylistCover, nullptr).toString();
+        juce::Image playlistImage = juce::ImageFileFormat::loadFrom(juce::File(imagePath));
+
+        playlistButton->setImages(
+            false,true,false,
+            playlistImage, 1.0f, juce::Colours::transparentWhite,
+            playlistImage, 1.0f, juce::Colours::transparentWhite,
+            playlistImage, 1.0f, juce::Colours::transparentWhite);
+
+        playlistButton->onClick = [this, playlistVT] () {
+            changeStateView(MenuState::View, playlistVT);
+            currentPlaylist = playlistVT;
+        };
+
+        addAndMakeVisible(playlistButton.get());
+        playlistButtons.push_back(std::move(playlistButton));
+
+        juce::String labelText = playlistVT.getPropertyAsValue(ID::PlaylistName, nullptr).toString();
+        auto label = std::make_unique<juce::Label>("Label",labelText);
+        label->setJustificationType(juce::Justification(36));
+        addAndMakeVisible(label.get());
+        labels.push_back(std::move(label));
     }
 
     void deletePlaylist()

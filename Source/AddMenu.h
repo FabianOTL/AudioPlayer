@@ -24,6 +24,7 @@ public:
     juce::TextEditor nameBox;
 
     std::unique_ptr<juce::FileChooser> chooser;
+    std::function<void(juce::ValueTree)> addPlaylistButton;
     AddMenu(juce::ValueTree library)
     {
         setSize(675, 300);
@@ -90,6 +91,7 @@ public:
                     "The playlist has been created!", // Message
                     "OK"                              // Button text
                 );
+                addPlaylistButton(playlist);
             }
             else 
             {
@@ -116,6 +118,12 @@ public:
 
         g.setColour (juce::Colours::grey);
         g.drawRect (getLocalBounds(), 1);   // draw an outline around the component   
+    }
+
+    void reset()
+    {
+        pictureBox.setText(projectDir + "/Resources/default.jpeg",  juce::NotificationType::dontSendNotification);
+        nameBox.setText("");
     }
 
     void resized() override
