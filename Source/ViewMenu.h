@@ -27,6 +27,8 @@ public:
 
     std::function<void(const MenuState)> changeState;
     std::function<void(const juce::File&)> loadFile;
+    std::function<void(const juce::ValueTree track)> addTrackToPlayQueue;
+    std::function<void()> clearPlayQueue;
 
     ViewMenu()
     {
@@ -82,13 +84,17 @@ public:
         unsigned int noTracks = playlist.getNumChildren();
         for(int i = 0;i<noTracks;i++)
         {
-            juce::String trackPath = playlist.getChild(i).getPropertyAsValue(ID::TrackPath, nullptr).toString();
+            juce::ValueTree trackVT = playlist.getChild(i);
+            juce::String trackPath = trackVT.getPropertyAsValue(ID::TrackPath, nullptr).toString();
 
             auto btn = std::make_unique<juce::TextButton>("Button");
             btn->setButtonText(juce::File(trackPath).getFileName());
-            btn->onClick = [this, trackPath] ()
+            btn->onClick = [this, trackPath, i, trackVT, noTracks] ()
             {
                 loadFile(juce::File(trackPath));
+                clearPlayQueue();
+                for(int delta = 1;i+delta<noTracks;delta++)
+                    addTrackToPlayQueue(trackVT.getSibling(delta));
             };
             addAndMakeVisible(btn.get());
 

@@ -26,6 +26,7 @@ MainComponent::MainComponent() : audioControl(&transportSource)
 	addAndMakeVisible(&nameLabel);
 	nameLabel.setBounds(150, 25, 700, 40);
 
+    previousSongPath = "";
  
     // Button to open an audio file
     addAndMakeVisible(&openButton);
@@ -37,23 +38,21 @@ MainComponent::MainComponent() : audioControl(&transportSource)
     // Add the recent files menu 
 	recentFiles.setBounds(800, 0, 200, 600);
 	recentFiles.loadFile = [this] (const juce::File& file) // make RecentFiles able to load a file into our AudioSource
-	{
-		loadFileInSource(file);	
-	};
+        { loadFileInSource(file);	};
 	addAndMakeVisible(&recentFiles); 
 
 
     // Playlists Menu 
     playlists.setBounds(100, 100, 675, 300);
-    playlists.viewMenu.loadFile = [this] (const juce::File& file)
-    {
-       loadFileInSource(file); 
-    };
+    playlists.viewMenu.loadFile = [this] (const juce::File& file) { loadFileInSource(file); };
+
     addAndMakeVisible(&playlists);
-    
+    playlists.viewMenu.addTrackToPlayQueue = [this] (juce::ValueTree trackVT) { audioControl.addToPlayQ(trackVT); };
+    playlists.viewMenu.clearPlayQueue = [this] () { audioControl.clearPlayQ(); };
 	// Audio Control 
     
     audioControl.setBounds(100, 400, 800, 200);
+    audioControl.loadFile = [this] (juce::File file) { loadFileInSource(file); };
     addAndMakeVisible(&audioControl);
 }
 
@@ -69,6 +68,12 @@ void MainComponent::loadFileInSource(juce::File file)
 	auto* reader = formatManager.createReaderFor(file);
     if(reader != nullptr) 
 	{
+        //add the previous one to the history stack 
+        if(previousSongPath!=""){
+            audioControl.history.push(previousSongPath);
+            audioControl.prevButton.setEnabled(true);  
+        }
+        previousSongPath = file.getFullPathName();
         recentFiles.addFile(file);
 
 		auto newSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
@@ -82,7 +87,11 @@ void MainComponent::loadFileInSource(juce::File file)
 		//show file name
 		const juce::String fileName = file.getFileName();
      	nameLabel.setText(fileName, juce::NotificationType::dontSendNotification);
-		transportSource.sendChangeMessage(); // for when the change accures outside the main comp. 
+		transportSource.sendChangeMessage(); // for when the change accures outside the main comp.
+        
+        //play the file 
+        audioControl.changeState(AudioControl::TransportState::Starting);
+
 	}       
 }
 

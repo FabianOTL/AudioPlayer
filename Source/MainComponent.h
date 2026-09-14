@@ -13,6 +13,7 @@
 class MainComponent  : public juce::AudioAppComponent{
 public:
 
+    juce::String previousSongPath;
 	juce::Label nameLabel;
 	juce::TextButton openButton;
 	juce::AudioTransportSource transportSource;

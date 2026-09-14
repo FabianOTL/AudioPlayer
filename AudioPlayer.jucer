@@ -11,6 +11,7 @@
             file="Source/MainComponent.cpp"/>
     </GROUP>
     <FILE id="YN3uCD" name="AddMenu.h" compile="0" resource="0" file="Source/AddMenu.h"/>
+    <FILE id="tZtU85" name="AudioControl.h" compile="0" resource="0" file="Source/AudioControl.h"/>
     <FILE id="h7KHKY" name="consts.h" compile="0" resource="0" file="Source/consts.h"/>
     <FILE id="kaKnF7" name="Playlists.cpp" compile="1" resource="0" file="Source/Playlists.cpp"/>
     <FILE id="NOYZkO" name="Playlists.h" compile="0" resource="0" file="Source/Playlists.h"/>

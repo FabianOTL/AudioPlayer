@@ -11,7 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
-
+#include <stack>
 //==============================================================================
 
 class AudioControl  : public juce::Component, public juce::SliderListener< juce::Slider>, public juce::ChangeListener, public juce::Timer 
@@ -26,9 +26,12 @@ public:
 	};
 	
 	TransportState state, stateBeforeDrag;
-    juce::TextButton playButton, stopButton;
+    juce::TextButton playButton, nextButton, prevButton;
     juce::Slider timeline, volumeSlider;
     juce::AudioTransportSource* transportSource;
+    std::queue<juce::String> playQ;
+    std::stack<juce::String> history;
+    std::function<void(juce::File)> loadFile;
 
     AudioControl(juce::AudioTransportSource* ts)
     {
@@ -39,19 +42,43 @@ public:
 
         // Button to play the loaded file 
         addAndMakeVisible(&playButton);
-        playButton.onClick = [this] { changeState(Starting); } ;
-        playButton.setBounds(200, 75, 100, 40);
-        playButton.setButtonText("Play");
+        playButton.onClick = [this] { 
+            if(state == Stopped)
+                changeState(Starting);
+            else 
+                changeState(Stopping);
+        } ;
+        playButton.setBounds(300, 70, 40, 40);
+        playButton.setButtonText("||");
         playButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);	
         playButton.setEnabled(false);	
        
-        // Button to pause the loaded file 
-        addAndMakeVisible(&stopButton);
-        stopButton.onClick = [this] { changeState(Stopping); } ; 
-        stopButton.setBounds(350, 75, 100, 40);
-        stopButton.setButtonText("Stop");
-        stopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
-        stopButton.setEnabled(false);
+        // Button to play the next song 
+        addAndMakeVisible(&nextButton);
+        nextButton.onClick = [this] () {
+            nextTrack();
+        };
+        nextButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);	
+        nextButton.setEnabled(false);
+
+        nextButton.setBounds(350, 70, 40, 40);
+        nextButton.setButtonText(">");
+               // Play previous song 
+
+        addAndMakeVisible(&prevButton);
+        prevButton.onClick = [this] () {
+            if(history.empty()) return;
+            loadFile(juce::File(history.top())); // here we add the prev song to history, which we don't want 
+            history.pop();                       // so we pop the stack two times 
+            history.pop();
+            if(history.empty())
+                prevButton.setEnabled(false);
+        };
+        prevButton.setBounds(250, 70, 40, 40);
+        prevButton.setButtonText("<");
+        prevButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);	
+        prevButton.setEnabled(false);
+
 
         // Timeline 
         timeline.addListener(this);
@@ -99,6 +126,36 @@ public:
 
     }
 
+    void addToPlayQ(juce::ValueTree track)
+    {
+        nextButton.setEnabled(true);
+        playQ.push(track.getPropertyAsValue(ID::TrackPath, nullptr).toString());
+    }
+
+    void nextTrack()
+    {
+        if(playQ.empty()) 
+        {
+            nextButton.setEnabled(false);
+            playButton.setEnabled(false);
+            return;
+        }
+
+        juce::String path = playQ.front();
+        playQ.pop();
+
+        if(playQ.empty())
+            nextButton.setEnabled(false);
+
+        loadFile(juce::File(path));
+    }
+
+    void clearPlayQ()
+    {
+        while(!playQ.empty())
+            playQ.pop();
+    }
+
     void changeState(TransportState newState)
     {
         if(state == newState) return;
@@ -107,16 +164,8 @@ public:
 
         switch(newState)
         {
-            case Playing: 
-                stopButton.setEnabled(true);
-                break;
             case Starting: 
                 transportSource->start();
-                playButton.setEnabled(false); 
-                break;
-            case Stopped:
-                playButton.setEnabled(true);
-                stopButton.setEnabled(false);
                 break;
             case Stopping:
                 transportSource->stop();	
@@ -125,20 +174,13 @@ public:
 
     }
 
-
     void sliderValueChanged(juce::Slider* source)
     {
         if(source == &timeline && timeline.isMouseButtonDown())
-        {
             transportSource->setPosition(timeline.getValue());
 
-        }
-        
         if(source == &volumeSlider) 
-        {
             transportSource->setGain(volumeSlider.getValue());
-        }
-
     }
 
     void sliderDragStarted(juce::Slider* source)
@@ -161,7 +203,6 @@ public:
             timeline.setValue(transportSource->getCurrentPosition()); // update the timeline when the audio is playing 
     }
 
-
     void changeListenerCallback(juce::ChangeBroadcaster* source) 
     {
         if(source == transportSource)
@@ -170,6 +211,9 @@ public:
                 changeState(Playing);
             else 
                 changeState(Stopped);
+
+            if(transportSource->hasStreamFinished())
+                nextTrack();
         }	
     }
 
