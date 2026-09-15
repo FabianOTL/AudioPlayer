@@ -14,6 +14,56 @@
 #include <stack>
 //==============================================================================
 
+class Queue 
+{
+public:
+
+    std::function<void(juce::File)> loadFile;
+
+    Queue()
+    {
+
+    }
+
+    ~Queue()
+    {
+
+    }
+
+    void add(juce::ValueTree track)
+    {
+        q.push(track.getPropertyAsValue(ID::TrackPath, nullptr).toString());
+    }
+    void nextTrack()
+    {
+        if(q.empty()) 
+        {
+            return;
+        }
+
+        juce::String path = q.front();
+        q.pop();
+
+        loadFile(juce::File(path));
+    }
+
+    void clear()
+    {
+        while(!q.empty())
+            q.pop();
+    }
+
+    bool empty()
+    {
+        return q.empty();
+    }
+
+private:
+
+    std::queue<juce::String> q;
+
+};
+
 class AudioControl  : public juce::Component, public juce::SliderListener< juce::Slider>, public juce::ChangeListener, public juce::Timer 
 {
 public: 
@@ -29,9 +79,9 @@ public:
     juce::TextButton playButton, nextButton, prevButton;
     juce::Slider timeline, volumeSlider;
     juce::AudioTransportSource* transportSource;
-    std::queue<juce::String> playQ;
     std::stack<juce::String> history;
     std::function<void(juce::File)> loadFile;
+    Queue* playQ, userQ;
 
     AudioControl(juce::AudioTransportSource* ts)
     {
@@ -39,6 +89,8 @@ public:
 
         transportSource = ts;
         transportSource->addChangeListener(this);
+
+        playQ = new Queue;
 
         // Button to play the loaded file 
         addAndMakeVisible(&playButton);
@@ -56,7 +108,7 @@ public:
         // Button to play the next song 
         addAndMakeVisible(&nextButton);
         nextButton.onClick = [this] () {
-            nextTrack();
+           playQ->nextTrack();
         };
         nextButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);	
         nextButton.setEnabled(false);
@@ -114,6 +166,7 @@ public:
 
     ~AudioControl() override
     {
+        delete playQ;
     }
 
     void paint (juce::Graphics& g) override
@@ -126,36 +179,7 @@ public:
 
     }
 
-    void addToPlayQ(juce::ValueTree track)
-    {
-        nextButton.setEnabled(true);
-        playQ.push(track.getPropertyAsValue(ID::TrackPath, nullptr).toString());
-    }
-
-    void nextTrack()
-    {
-        if(playQ.empty()) 
-        {
-            nextButton.setEnabled(false);
-            playButton.setEnabled(false);
-            return;
-        }
-
-        juce::String path = playQ.front();
-        playQ.pop();
-
-        if(playQ.empty())
-            nextButton.setEnabled(false);
-
-        loadFile(juce::File(path));
-    }
-
-    void clearPlayQ()
-    {
-        while(!playQ.empty())
-            playQ.pop();
-    }
-
+   
     void changeState(TransportState newState)
     {
         if(state == newState) return;
@@ -213,7 +237,10 @@ public:
                 changeState(Stopped);
 
             if(transportSource->hasStreamFinished())
-                nextTrack();
+                playQ->nextTrack();
+
+            std::cout << "Hello\n";
+            nextButton.setEnabled(!playQ->empty());
         }	
     }
 

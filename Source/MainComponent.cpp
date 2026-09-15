@@ -47,12 +47,12 @@ MainComponent::MainComponent() : audioControl(&transportSource)
     playlists.viewMenu.loadFile = [this] (const juce::File& file) { loadFileInSource(file); };
 
     addAndMakeVisible(&playlists);
-    playlists.viewMenu.addTrackToPlayQueue = [this] (juce::ValueTree trackVT) { audioControl.addToPlayQ(trackVT); };
-    playlists.viewMenu.clearPlayQueue = [this] () { audioControl.clearPlayQ(); };
+    playlists.viewMenu.playQ = audioControl.playQ;
 	// Audio Control 
     
     audioControl.setBounds(100, 400, 800, 200);
     audioControl.loadFile = [this] (juce::File file) { loadFileInSource(file); };
+    audioControl.playQ->loadFile = [this] (juce::File file) {loadFileInSource(file); };
     addAndMakeVisible(&audioControl);
 }
 

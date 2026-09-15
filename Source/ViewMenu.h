@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "AudioControl.h"
 
 //==============================================================================
 /*
@@ -27,8 +28,8 @@ public:
 
     std::function<void(const MenuState)> changeState;
     std::function<void(const juce::File&)> loadFile;
-    std::function<void(const juce::ValueTree track)> addTrackToPlayQueue;
-    std::function<void()> clearPlayQueue;
+
+    Queue* playQ;
 
     ViewMenu()
     {
@@ -92,9 +93,9 @@ public:
             btn->onClick = [this, trackPath, i, trackVT, noTracks] ()
             {
                 loadFile(juce::File(trackPath));
-                clearPlayQueue();
+                playQ->clear();
                 for(int delta = 1;i+delta<noTracks;delta++)
-                    addTrackToPlayQueue(trackVT.getSibling(delta));
+                    playQ->add(trackVT.getSibling(delta));
             };
             addAndMakeVisible(btn.get());
 
