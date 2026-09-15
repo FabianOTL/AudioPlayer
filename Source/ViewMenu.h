@@ -29,7 +29,7 @@ public:
     std::function<void(const MenuState)> changeState;
     std::function<void(const juce::File&)> loadFile;
 
-    Queue* playQ;
+    Queue *playQ, *userQ;
 
     ViewMenu()
     {
@@ -64,6 +64,7 @@ public:
         while(tracks.size()){
             tracks.pop_back();
             deletes.pop_back();
+            queueButtons.pop_back();
         }
 
         // The left side of the menu (cover, title and back button)
@@ -107,8 +108,17 @@ public:
             };
             addAndMakeVisible(del.get());
 
+            auto qbtn = std::make_unique<juce::TextButton>("Button");
+            qbtn -> setButtonText("+");
+            qbtn -> onClick = [this, trackVT] ()
+            {
+                userQ->add(trackVT);
+            };
+            addAndMakeVisible(qbtn.get());
+                
             tracks.push_back(std::move(btn));
             deletes.push_back(std::move(del));
+            queueButtons.push_back(std::move(qbtn));
         }
 
         resized();
@@ -143,9 +153,17 @@ public:
                 };
                 addAndMakeVisible(del.get());
 
+                auto qbtn = std::make_unique<juce::TextButton>("Button");
+                qbtn -> setButtonText("+");
+                qbtn -> onClick = [this, trackVT] ()
+                {
+                    userQ->add(trackVT);
+                };
+
                 playlistVT.appendChild(trackVT, nullptr);  
                 tracks.push_back(std::move(btn));
                 deletes.push_back(std::move(del));
+                queueButtons.push_back(std::move(qbtn));
 
                 if(auto xml = playlistVT.getParent().createXml())
                     xml -> writeTo(juce::File(appData + "/library.xml"));
@@ -180,6 +198,7 @@ public:
             row = right.removeFromTop(50);
             tracks[i]->setBounds(row.removeFromLeft(300));
             deletes[i] -> setBounds(row.removeFromLeft(100));
+            queueButtons[i] -> setBounds(row.removeFromLeft(100));
         }
     }
 
@@ -190,6 +209,7 @@ public:
         playlistVT.removeChild(index, nullptr);
         tracks.erase(tracks.begin() + index);
         deletes.erase(deletes.begin() + index);
+        queueButtons.erase(queueButtons.begin() + index);
 
         if(auto xml = playlistVT.getParent().createXml())
             xml -> writeTo(juce::File(appData + "/library.xml"));
@@ -198,6 +218,6 @@ public:
     }
 
 private:
-    std::vector<std::unique_ptr<juce::TextButton>> tracks, deletes;
+    std::vector<std::unique_ptr<juce::TextButton>> tracks, deletes, queueButtons;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ViewMenu)
 };

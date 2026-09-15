@@ -81,7 +81,7 @@ public:
     juce::AudioTransportSource* transportSource;
     std::stack<juce::String> history;
     std::function<void(juce::File)> loadFile;
-    Queue* playQ, userQ;
+    Queue* playQ, *userQ;
 
     AudioControl(juce::AudioTransportSource* ts)
     {
@@ -91,6 +91,7 @@ public:
         transportSource->addChangeListener(this);
 
         playQ = new Queue;
+        userQ = new Queue;
 
         // Button to play the loaded file 
         addAndMakeVisible(&playButton);
@@ -108,7 +109,10 @@ public:
         // Button to play the next song 
         addAndMakeVisible(&nextButton);
         nextButton.onClick = [this] () {
-           playQ->nextTrack();
+           if(userQ->empty())
+               playQ->nextTrack();
+           else 
+               userQ->nextTrack();
         };
         nextButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);	
         nextButton.setEnabled(false);
@@ -167,6 +171,7 @@ public:
     ~AudioControl() override
     {
         delete playQ;
+        delete userQ;
     }
 
     void paint (juce::Graphics& g) override
@@ -195,7 +200,6 @@ public:
                 transportSource->stop();	
                 break;
         }
-
     }
 
     void sliderValueChanged(juce::Slider* source)
@@ -224,7 +228,8 @@ public:
     void timerCallback()
     {
         if(state == TransportState::Playing)
-            timeline.setValue(transportSource->getCurrentPosition()); // update the timeline when the audio is playing 
+            timeline.setValue(transportSource->getCurrentPosition()); // update the timeline when the audio is playing
+        nextButton.setEnabled(!playQ->empty() || !userQ->empty());
     }
 
     void changeListenerCallback(juce::ChangeBroadcaster* source) 
@@ -239,7 +244,6 @@ public:
             if(transportSource->hasStreamFinished())
                 playQ->nextTrack();
 
-            std::cout << "Hello\n";
             nextButton.setEnabled(!playQ->empty());
         }	
     }

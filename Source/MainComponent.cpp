@@ -48,11 +48,14 @@ MainComponent::MainComponent() : audioControl(&transportSource)
 
     addAndMakeVisible(&playlists);
     playlists.viewMenu.playQ = audioControl.playQ;
+    playlists.viewMenu.userQ = audioControl.userQ;
+
 	// Audio Control 
     
     audioControl.setBounds(100, 400, 800, 200);
     audioControl.loadFile = [this] (juce::File file) { loadFileInSource(file); };
     audioControl.playQ->loadFile = [this] (juce::File file) {loadFileInSource(file); };
+    audioControl.userQ->loadFile = [this] (juce::File file) {loadFileInSource(file); };
     addAndMakeVisible(&audioControl);
 }
 
