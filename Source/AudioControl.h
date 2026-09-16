@@ -119,8 +119,8 @@ public:
 
         nextButton.setBounds(350, 70, 40, 40);
         nextButton.setButtonText(">");
-               // Play previous song 
 
+        // Play previous song 
         addAndMakeVisible(&prevButton);
         prevButton.onClick = [this] () {
             if(history.empty()) return;

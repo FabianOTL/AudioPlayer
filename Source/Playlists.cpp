@@ -31,7 +31,13 @@ Playlists::Playlists() : menuState(List), library(ID::Library), addMenu(library)
     library.copyPropertiesAndChildrenFrom(loadedTree, nullptr);
 
     // Add the different menus 
-    addAndMakeVisible(&listMenu);
+
+    playlistsViewPort.setViewedComponent(&listMenu, false);
+    playlistsViewPort.setScrollBarsShown(true, false); // Vertical enabled, Horizontal disabled
+    playlistsViewPort.setSingleStepSizes(0, 20);      // Scroll step size in pixels
+    addAndMakeVisible(playlistsViewPort);
+
+    //addAndMakeVisible(&listMenu);
     addChildComponent(&addMenu);
     addChildComponent(&viewMenu);
 
@@ -73,11 +79,8 @@ Playlists::~Playlists()
 {
 }
 
-void Playlists::paint (juce::Graphics& g)
+void Playlists::paintOverChildren (juce::Graphics& g)
 { 
-
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
-
     g.setColour (juce::Colours::grey);
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
 
@@ -85,9 +88,7 @@ void Playlists::paint (juce::Graphics& g)
 
 void Playlists::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
-
+    playlistsViewPort.setBounds(getLocalBounds());
 }
 
 void Playlists::changeMenuState(MenuState newMenuState, juce::ValueTree vt)

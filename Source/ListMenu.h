@@ -20,6 +20,7 @@ public:
     juce::ValueTree library, currentPlaylist;
     std::function<void(const MenuState)> changeState;
     std::function<void(const MenuState, juce::ValueTree)> changeStateView;
+    int currentRows = 2;
 
     ListMenu(juce::ValueTree vt) : library(vt) 
     {
@@ -63,8 +64,13 @@ public:
    
         for(int i=0;i<playlistButtons.size();i++)
         {
-            if(count%5 == 0) {count = 0; row = area.removeFromTop(size); labelRow = area.removeFromTop(gap); }
-                count++;
+            if(count%5 == 0) 
+            {
+                count = 0; 
+                row = area.removeFromTop(size); 
+                labelRow = area.removeFromTop(gap); 
+            }
+            count++;
 
             row.removeFromLeft(gap);
             labelRow.removeFromLeft(gap);
@@ -81,6 +87,7 @@ public:
         playlistButtons.push_back(std::move(newPlaylistButton));
 
         labels.clear();
+        
 
         //Add the label for new playlist button 
         auto label = std::make_unique<juce::Label>("Label","New Playlist");
@@ -123,6 +130,8 @@ public:
         label->setJustificationType(juce::Justification(36));
         addAndMakeVisible(label.get());
         labels.push_back(std::move(label));
+ 
+        setSize(675, ((playlistButtons.size()-1)/5 + 1) * 110 + 25);
     }
 
     void deletePlaylist()
@@ -135,7 +144,8 @@ public:
         
         if(auto xml = library.createXml())
             xml -> writeTo(juce::File(appData + "/library.xml"));
-        
+       
+        setSize(675, ((playlistButtons.size()-1)/5 + 1) * 110 + 25);
         resized();
     }
 bool isLoaded()

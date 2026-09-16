@@ -22,6 +22,7 @@ class Playlists  : public juce::Component
 {
 public:
     juce::ValueTree library;
+    juce::Viewport playlistsViewPort;
     ListMenu listMenu;
     AddMenu addMenu;
     ViewMenu viewMenu;
@@ -31,7 +32,7 @@ public:
     Playlists();
     ~Playlists() override;
 
-    void paint (juce::Graphics&) override;
+    void paintOverChildren (juce::Graphics&) override;
     void resized() override;
 
 
