@@ -19,9 +19,19 @@ RecentFiles::RecentFiles()
 	title.setText("Recent Files", juce::dontSendNotification);
 	addAndMakeVisible(&title);
 
+    // Check if the files needed exist and create them if they don't 
+    
+    juce::File audioPlayerDirectory(appData + "/AudioPlayer"), recentsFile(appData + "/AudioPlayer/recents.txt");
+
+    if(!audioPlayerDirectory.exists())
+        audioPlayerDirectory.createDirectory();
+    
+    if(!recentsFile.existsAsFile())
+        recentsFile.create();
+
 	// Read the recents.txt file and add the files to the list
 
-	std::ifstream fin(appData.toStdString() + "/recents.txt");
+	std::ifstream fin(appData.toStdString() + "/AudioPlayer/recents.txt");
 
 	char path[1024];
 
@@ -42,7 +52,7 @@ RecentFiles::RecentFiles()
 RecentFiles::~RecentFiles()
 {
     // Save the changes made to recents.txt
-	std::ofstream fout(appData.toStdString() + "/recents.txt");
+	std::ofstream fout(appData.toStdString() + "/AudioPlayer/recents.txt");
 	
 	while(filesQ.size())
 	{

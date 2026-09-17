@@ -15,7 +15,7 @@ public:
 
     juce::String previousSongPath;
 	juce::Label nameLabel;
-	juce::TextButton openButton;
+	juce::TextButton openButton, exitButton;
 	juce::AudioTransportSource transportSource;
 	juce::AudioFormatManager formatManager;
 	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;	

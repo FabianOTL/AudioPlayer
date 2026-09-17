@@ -17,14 +17,14 @@ Playlists::Playlists() : menuState(List), library(ID::Library), addMenu(library)
 
     // Import/Create the value tree 
 
-    std::unique_ptr<juce::XmlElement> xml = juce::XmlDocument::parse(juce::File(appData + "/library.xml"));
+    std::unique_ptr<juce::XmlElement> xml = juce::XmlDocument::parse(juce::File(appData + "/AudioPlayer/library.xml"));
 
     if(xml == nullptr)
     {
         // Create the xml file
         if(auto xmlNew = library.createXml())
-            xmlNew -> writeTo(juce::File(appData + "/library.xml"));
-        xml = juce::XmlDocument::parse(juce::File(appData + "/library.xml"));
+            xmlNew -> writeTo(juce::File(appData + "/AudioPlayer/library.xml"));
+        xml = juce::XmlDocument::parse(juce::File(appData + "/AudioPlayer/library.xml"));
     }
 
     auto loadedTree = juce::ValueTree::fromXml(*xml);

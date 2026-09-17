@@ -26,6 +26,12 @@ public:
     {
         setSize(675, 300);
 
+        // check if the needed directory exists
+        
+        juce::File directory(appData + "/AudioPlayer"); 
+        if(!directory.exists())
+            directory.createDirectory();
+
         // Button to add a new playlist 
         juce::Image newPlaylistImage = juce::ImageFileFormat::loadFrom(juce::File(projectDir + "/Resources/add.png"));
 
@@ -143,7 +149,7 @@ public:
         library.removeChild(currentPlaylist, nullptr);
         
         if(auto xml = library.createXml())
-            xml -> writeTo(juce::File(appData + "/library.xml"));
+            xml -> writeTo(juce::File(appData + "/AudioPlayer/library.xml"));
        
         setSize(675, ((playlistButtons.size()-1)/5 + 1) * 110 + 25);
         resized();

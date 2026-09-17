@@ -166,7 +166,7 @@ public:
                 queueButtons.push_back(std::move(qbtn));
 
                 if(auto xml = playlistVT.getParent().createXml())
-                    xml -> writeTo(juce::File(appData + "/library.xml"));
+                    xml -> writeTo(juce::File(appData + "/AudioPlayer/library.xml"));
 
                 resized();
             }
@@ -212,7 +212,7 @@ public:
         queueButtons.erase(queueButtons.begin() + index);
 
         if(auto xml = playlistVT.getParent().createXml())
-            xml -> writeTo(juce::File(appData + "/library.xml"));
+            xml -> writeTo(juce::File(appData + "/AudioPlayer/library.xml"));
 
         resized();
     }

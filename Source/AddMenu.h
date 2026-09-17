@@ -83,7 +83,7 @@ public:
             library.appendChild(playlist, nullptr);
             
             if(auto xml = library.createXml()){
-                xml -> writeTo(juce::File(appData + "/library.xml"));
+                xml -> writeTo(juce::File(appData + "/AudioPlayer/library.xml"));
 
                 juce::AlertWindow::showMessageBoxAsync(
                     juce::AlertWindow::InfoIcon,

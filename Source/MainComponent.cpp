@@ -35,6 +35,15 @@ MainComponent::MainComponent() : audioControl(&transportSource)
     openButton.setButtonText("Open");
     openButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
 
+    //Buton to exit the application 
+    
+    addAndMakeVisible(&exitButton);
+    exitButton.onClick = [this] () {juce::JUCEApplication::getInstance()->systemRequestedQuit(); };
+    exitButton.setBounds(130, 25, 100, 40);
+    exitButton.setButtonText("Exit");
+    exitButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
+
+
     // Add the recent files menu 
 	recentFiles.setBounds(800, 0, 200, 600);
 	recentFiles.loadFile = [this] (const juce::File& file) // make RecentFiles able to load a file into our AudioSource
