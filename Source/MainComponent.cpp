@@ -24,7 +24,7 @@ MainComponent::MainComponent() : audioControl(&transportSource)
 	formatManager.registerBasicFormats();
 
 	addAndMakeVisible(&nameLabel);
-	nameLabel.setBounds(150, 25, 700, 40);
+	nameLabel.setBounds(250, 25, 700, 40);
 
     previousSongPath = "";
  
@@ -43,16 +43,20 @@ MainComponent::MainComponent() : audioControl(&transportSource)
     exitButton.setButtonText("Exit");
     exitButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
 
-
     // Add the recent files menu 
-	recentFiles.setBounds(800, 0, 200, 600);
 	recentFiles.loadFile = [this] (const juce::File& file) // make RecentFiles able to load a file into our AudioSource
         { loadFileInSource(file);	};
-	addAndMakeVisible(&recentFiles); 
 
+    // Side Menu
 
+    tabs.setBounds(715,25,275,500);
+    tabs.addTab("Recent File", juce::Colours::grey, &recentFiles, true);
+    tabs.addTab("Queue", juce::Colours::grey, audioControl.userQ->getViewer(), true);
+    addAndMakeVisible(&tabs);
+
+    
     // Playlists Menu 
-    playlists.setBounds(100, 100, 675, 300);
+    playlists.setBounds(25, 100, 675, 300);
     playlists.viewMenu.loadFile = [this] (const juce::File& file) { loadFileInSource(file); };
 
     addAndMakeVisible(&playlists);
@@ -61,11 +65,13 @@ MainComponent::MainComponent() : audioControl(&transportSource)
 
 	// Audio Control 
     
-    audioControl.setBounds(100, 400, 800, 200);
+    audioControl.setBounds(25, 400, 800, 200);
     audioControl.loadFile = [this] (juce::File file) { loadFileInSource(file); };
     audioControl.playQ->loadFile = [this] (juce::File file) {loadFileInSource(file); };
     audioControl.userQ->loadFile = [this] (juce::File file) {loadFileInSource(file); };
     addAndMakeVisible(&audioControl);
+
+
 }
 
 MainComponent::~MainComponent()
@@ -123,7 +129,7 @@ void MainComponent::openButtonClicked()
 		}
 	};
 
-	chooser -> launchAsync(chooserFlag, open);  
+	chooser -> launchAsync(chooserFlag, open);
 }
 
 //==============================================================================
@@ -152,7 +158,6 @@ void MainComponent::releaseResources()
 void MainComponent::paint (juce::Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
 }
 
 void MainComponent::resized()

@@ -16,8 +16,6 @@
 RecentFiles::RecentFiles()
 {
 	setSize(150, 600);
-	title.setText("Recent Files", juce::dontSendNotification);
-	addAndMakeVisible(&title);
 
     // Check if the files needed exist and create them if they don't 
     
@@ -103,7 +101,6 @@ void RecentFiles::resized()
 	auto area = getLocalBounds();
 	auto itemH = 50;
 
-	title.setBounds(area.removeFromTop(itemH));
 	for(auto& it : buttons) 
 		it.get() -> setBounds(area.removeFromTop(itemH));
 	

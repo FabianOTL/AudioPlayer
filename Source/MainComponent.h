@@ -18,6 +18,7 @@ public:
 	juce::TextButton openButton, exitButton;
 	juce::AudioTransportSource transportSource;
 	juce::AudioFormatManager formatManager;
+    juce::TabbedComponent tabs {juce::TabbedButtonBar::TabsAtTop};
 	std::unique_ptr<juce::AudioFormatReaderSource> readerSource;	
 	std::unique_ptr<juce::FileChooser> chooser;
 	RecentFiles recentFiles;	

@@ -14,6 +14,16 @@
 #include <stack>
 //==============================================================================
 
+class Viewer : public juce::Component
+{
+public:
+
+    void paint(juce::Graphics& g) 
+    {
+        g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
+    }
+};
+
 class Queue 
 {
 public:
@@ -22,18 +32,24 @@ public:
 
     Queue()
     {
-
+        build();
     }
 
     ~Queue()
     {
-
     }
 
     void add(juce::ValueTree track)
     {
-        q.push(track.getPropertyAsValue(ID::TrackPath, nullptr).toString());
+        juce::String path {track.getPropertyAsValue(ID::TrackPath, nullptr).toString()};
+        q.push(path);
+
+        auto label = std::make_unique<juce::Label>("Label", juce::File(path).getFileName());
+        viewerLabels.push_back(std::move(label));
+
+        build();
     }
+    
     void nextTrack()
     {
         if(q.empty()) 
@@ -43,14 +59,19 @@ public:
 
         juce::String path = q.front();
         q.pop();
+        viewerLabels.erase(viewerLabels.begin());
 
         loadFile(juce::File(path));
-    }
+
+        build();
+    } 
 
     void clear()
     {
-        while(!q.empty())
+        while(!q.empty()){
             q.pop();
+            viewerLabels.pop_back();
+        }
     }
 
     bool empty()
@@ -58,10 +79,41 @@ public:
         return q.empty();
     }
 
+    Viewer* getViewer()
+    {
+        return &viewer;
+    }
+
 private:
+    
+    void build()
+    {
+        viewer.removeAllChildren();
 
+        if(empty())
+            return;
+
+        auto area = viewer.getLocalBounds();
+
+        clearButton.setButtonText("Clear");
+        clearButton.onClick = [this] ()
+        {
+            clear();
+            build();
+        };
+        clearButton.setBounds(area.removeFromTop(50));
+        viewer.addAndMakeVisible(&clearButton);
+
+        for(auto& it: viewerLabels)
+        {
+            it -> setBounds(area.removeFromTop(50));
+            viewer.addAndMakeVisible(it.get());
+        }
+    }
     std::queue<juce::String> q;
-
+    Viewer viewer;
+    juce::TextButton clearButton;
+    std::vector<std::unique_ptr<juce::Label>> viewerLabels;
 };
 
 class AudioControl  : public juce::Component, public juce::SliderListener< juce::Slider>, public juce::ChangeListener, public juce::Timer 

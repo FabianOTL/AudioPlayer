@@ -36,7 +36,6 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RecentFiles)
 
 	const int MaxSize = 10;
-	juce::Label title;
 
 	std::queue<juce::File> filesQ;
 	std::set<juce::File> filesSet; 
