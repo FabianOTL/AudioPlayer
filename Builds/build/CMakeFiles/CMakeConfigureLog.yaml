@@ -2068,3 +2068,39 @@ events:
         
       exitCode: 0
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "Include/JUCE/extras/Build/CMake/JUCECheckAtomic.cmake:73 (try_compile)"
+      - "Include/JUCE/extras/Build/CMake/JUCECheckAtomic.cmake:128 (_juce_create_atomic_target)"
+      - "Include/JUCE/extras/Build/CMake/JUCEModuleSupport.cmake:53 (include)"
+      - "Include/JUCE/CMakeLists.txt:57 (include)"
+    directories:
+      source: "/home/fabi/Dev/AudioPlayer/Builds/build/Include/JUCE/check_atomic_dir_8kKGVZdvGC7RkD8j/CMakeFiles/CMakeTmp"
+      binary: "/home/fabi/Dev/AudioPlayer/Builds/build/Include/JUCE/check_atomic_dir_8kKGVZdvGC7RkD8j/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "compile_result"
+      cached: true
+      stdout: |
+        Change Dir: '/home/fabi/Dev/AudioPlayer/Builds/build/Include/JUCE/check_atomic_dir_8kKGVZdvGC7RkD8j/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_95334/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_95334.dir/build.make CMakeFiles/cmTC_95334.dir/build
+        make[1]: Entering directory '/home/fabi/Dev/AudioPlayer/Builds/build/Include/JUCE/check_atomic_dir_8kKGVZdvGC7RkD8j/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_95334.dir/check_atomic_8RqiNUXBhtr6Z9Pd.cpp.o
+        /usr/bin/c++   -std=c++17 -o CMakeFiles/cmTC_95334.dir/check_atomic_8RqiNUXBhtr6Z9Pd.cpp.o -c /home/fabi/Dev/AudioPlayer/Builds/build/Include/JUCE/check_atomic_8RqiNUXBhtr6Z9Pd.cpp
+        Linking CXX executable cmTC_95334
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_95334.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_95334.dir/check_atomic_8RqiNUXBhtr6Z9Pd.cpp.o -o cmTC_95334
+        make[1]: Leaving directory '/home/fabi/Dev/AudioPlayer/Builds/build/Include/JUCE/check_atomic_dir_8kKGVZdvGC7RkD8j/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+...

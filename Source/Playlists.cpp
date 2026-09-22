@@ -34,11 +34,14 @@ Playlists::Playlists() : menuState(List), library(ID::Library), addMenu(library)
     playlistsViewPort.setViewedComponent(&listMenu, false);
     playlistsViewPort.setScrollBarsShown(true, false); // Vertical enabled, Horizontal disabled
     playlistsViewPort.setSingleStepSizes(0, 20);      // Scroll step size in pixels
-    addAndMakeVisible(playlistsViewPort);
 
-    //addAndMakeVisible(&listMenu);
+    playlistViewPort.setViewedComponent(&viewMenu, false);
+    playlistViewPort.setScrollBarsShown(true, false); 
+    playlistViewPort.setSingleStepSizes(0, 20);    
+
+    addAndMakeVisible(playlistsViewPort);
     addChildComponent(&addMenu);
-    addChildComponent(&viewMenu);
+    addChildComponent(playlistViewPort);
 
     listMenu.createPlaylists();
 
@@ -88,6 +91,7 @@ void Playlists::paintOverChildren (juce::Graphics& g)
 void Playlists::resized()
 {
     playlistsViewPort.setBounds(getLocalBounds());
+    playlistViewPort.setBounds(getLocalBounds());
 }
 
 void Playlists::changeMenuState(MenuState newMenuState, juce::ValueTree vt)
@@ -97,7 +101,8 @@ void Playlists::changeMenuState(MenuState newMenuState, juce::ValueTree vt)
     switch(menuState)
     {
         case MenuState::List: 
-            listMenu.setVisible(false);
+            playlistsViewPort.setVisible(false);
+//            listMenu.setVisible(false);
             break;
 
         case MenuState::Add:
@@ -106,7 +111,8 @@ void Playlists::changeMenuState(MenuState newMenuState, juce::ValueTree vt)
             break;
 
         case MenuState::View: 
-            viewMenu.setVisible(false);
+            playlistViewPort.setVisible(false);
+//          viewMenu.setVisible(false);
             break;
 
     }
@@ -120,7 +126,8 @@ void Playlists::changeMenuState(MenuState newMenuState, juce::ValueTree vt)
                 listMenu.createPlaylists();
                 listMenu.setLoaded(true);
             }
-            listMenu.setVisible(true);
+            playlistsViewPort.setVisible(true);
+//            listMenu.setVisible(true);
             break;
 
         case MenuState::Add: 
@@ -129,7 +136,8 @@ void Playlists::changeMenuState(MenuState newMenuState, juce::ValueTree vt)
 
         case MenuState::View: 
             viewMenu.build(vt);
-            viewMenu.setVisible(true);
+            playlistViewPort.setVisible(true);
+//            viewMenu.setVisible(true);
             break;
     }
 

@@ -33,7 +33,7 @@ public:
 
     ViewMenu()
     {
-        setSize(625, 300);
+        setSize(675, 300);
 
         backButton.setButtonText("Back"); 
         addAndMakeVisible(&backButton);
@@ -121,6 +121,7 @@ public:
             queueButtons.push_back(std::move(qbtn));
         }
 
+        setSize(675, std::max(300,static_cast<int>(tracks.size()*50)));
         resized();
     }
 
@@ -159,11 +160,14 @@ public:
                 {
                     userQ->add(trackVT);
                 };
+                addAndMakeVisible(qbtn.get());
 
                 playlistVT.appendChild(trackVT, nullptr);  
                 tracks.push_back(std::move(btn));
                 deletes.push_back(std::move(del));
                 queueButtons.push_back(std::move(qbtn));
+
+                setSize(675, std::max(300,static_cast<int>(tracks.size()*50)));
 
                 if(auto xml = playlistVT.getParent().createXml())
                     xml -> writeTo(juce::File(appData + "/AudioPlayer/library.xml"));
@@ -173,6 +177,7 @@ public:
         };
 
         chooser -> launchAsync(chooserFlag, open);  
+
     }
 
     void paint (juce::Graphics& g) override
@@ -191,12 +196,12 @@ public:
         auto row = left.removeFromTop(50);
         addTrackButton.setBounds(row.removeFromLeft(75));
         deletePlaylistButton.setBounds(row.removeFromLeft(75));
-        backButton.setBounds(left.removeFromBottom(50));
+        backButton.setBounds(left.removeFromTop(50));
 
         //right side
         for(int i=0;i<tracks.size();i++){
             row = right.removeFromTop(50);
-            tracks[i]->setBounds(row.removeFromLeft(300));
+            tracks[i]->setBounds(row.removeFromLeft(350));
             deletes[i] -> setBounds(row.removeFromLeft(100));
             queueButtons[i] -> setBounds(row.removeFromLeft(100));
         }
@@ -214,6 +219,7 @@ public:
         if(auto xml = playlistVT.getParent().createXml())
             xml -> writeTo(juce::File(appData + "/AudioPlayer/library.xml"));
 
+        setSize(675, std::max(300,static_cast<int>(tracks.size()*50)));
         resized();
     }
 

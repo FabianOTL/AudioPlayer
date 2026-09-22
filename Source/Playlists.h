@@ -22,7 +22,7 @@ class Playlists  : public juce::Component
 {
 public:
     juce::ValueTree library;
-    juce::Viewport playlistsViewPort;
+    juce::Viewport playlistsViewPort, playlistViewPort;
     ListMenu listMenu;
     AddMenu addMenu;
     ViewMenu viewMenu;
