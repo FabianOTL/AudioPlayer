@@ -1,33 +1,38 @@
-name: CMake Build Matrix
+name: CMake C++ CI
 
-on: [push]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
-    name: ${ { matrix.config.name } }
-    runs-on: ${ { matrix.config.os } }
+    name: ${{ matrix.os }} (${{ matrix.build_type }})
+    runs-on: ${{ matrix.os }}
+
     strategy:
       fail-fast: false
       matrix:
-        config:
-        - {
-            name: "Windows Latest MSVC", artifact: "Windows-MSVC.tar.xz",
-            os: windows-latest,
-            build_type: "Release", cc: "cl", cxx: "cl",
-            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
-          }
-        - {
-            name: "Windows Latest MinGW", artifact: "Windows-MinGW.tar.xz",
-            os: windows-latest,
-            build_type: "Release", cc: "gcc", cxx: "g++"
-          }
-        - {
-            name: "Ubuntu Latest GCC", artifact: "Linux.tar.xz",
-            os: ubuntu-latest,
-            build_type: "Release", cc: "gcc", cxx: "g++"
-          }
-        - {
-            name: "macOS Latest Clang", artifact: "macOS.tar.xz",
-            os: macos-latest,
-            build_type: "Release", cc: "clang", cxx: "clang++"
-          }
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        build_type: [Release]
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Ninja
+      uses: llvm/actions/install-ninja@main
+
+    - name: Configure CMake
+      run: >
+        cmake -B ${{ github.workspace }}/build
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -G Ninja
+
+    - name: Build Project
+      run: cmake --build ${{ github.workspace }}/build --config ${{ matrix.build_type }}
+
+    - name: Run Tests
+      working-directory: ${{ github.workspace }}/build
+      run: ctest --output-on-failure -C ${{ matrix.build_type }}
