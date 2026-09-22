@@ -8,7 +8,6 @@
   ==============================================================================
 */
 
-#include <JuceHeader.h>
 #include <fstream>
 #include "RecentFiles.h"
 

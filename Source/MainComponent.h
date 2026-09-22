@@ -1,6 +1,5 @@
 #pragma once
 
-#include <JuceHeader.h>
 #include "RecentFiles.h" 
 #include "Playlists.h"
 #include "AudioControl.h"

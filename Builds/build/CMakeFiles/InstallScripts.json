@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/fabi/Dev/AudioPlayer/Builds/build/cmake_install.cmake",
+		"/home/fabi/Dev/AudioPlayer/Builds/build/Include/JUCE/cmake_install.cmake",
+		"/home/fabi/Dev/AudioPlayer/Builds/build/Include/JUCE/modules/cmake_install.cmake",
+		"/home/fabi/Dev/AudioPlayer/Builds/build/Include/JUCE/extras/Build/cmake_install.cmake",
+		"/home/fabi/Dev/AudioPlayer/Builds/build/Include/JUCE/extras/Build/juceaide/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

@@ -1,0 +1,256 @@
+AudioPlayer_artefacts/AudioPlayer: \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/Scrt1.o \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crti.o \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtbeginS.o \
+  CMakeFiles/AudioPlayer.dir/Source/Main.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Source/MainComponent.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Source/Playlists.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Source/RecentFiles.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_basics/juce_audio_basics.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_core/juce_core.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_core/juce_core_zlib.c.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_devices/juce_audio_devices.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_events/juce_events.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_formats/juce_audio_formats.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_formats/juce_audio_formats_flac_1.c.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_formats/juce_audio_formats_flac_2.c.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_processors/juce_audio_processors.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_gui_extra/juce_gui_extra.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_gui_basics/juce_gui_basics.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_gui_basics/juce_gui_basics_2.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_gui_basics/juce_gui_basics_3.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_gui_basics/juce_gui_basics_4.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_gui_basics/juce_gui_basics_5.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics_libjpg_1.c.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics_libjpg_2.c.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics_libjpg_3.c.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics_libpng.c.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics_lunasvg.c.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_data_structures/juce_data_structures.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.o \
+  CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_utils/juce_audio_utils.cpp.o \
+  /usr/lib/libasound.so \
+  /usr/lib/libfontconfig.so \
+  /usr/lib/libfreetype.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/librt.a \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libdl.a \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libpthread.a \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libstdc++.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libm.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libm.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libm.so \
+  /usr/lib/libm.so.6 \
+  /usr/lib/libmvec.so.1 \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc_s.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc_s.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc_s.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libgcc_s.so.1 \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc.a \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc.a \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libatomic_asneeded.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libatomic_asneeded.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libatomic_asneeded.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libatomic.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libc.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libc.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libc.so \
+  /usr/lib/libc.so.6 \
+  /usr/lib/libc_nonshared.a \
+  /usr/lib/ld-linux-x86-64.so.2 \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc_s.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc_s.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc_s.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libgcc_s.so.1 \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc.a \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc.a \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtendS.o \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crtn.o \
+  /usr/lib/ld-linux-x86-64.so.2 \
+  /usr/lib32/libexpat.so.1 \
+  /usr/lib/libexpat.so.1 \
+  /usr/lib32/libz.so.1 \
+  /usr/lib/libz.so.1 \
+  /usr/lib32/libbz2.so.1.0 \
+  /usr/lib/libbz2.so.1.0 \
+  /usr/lib32/libpng16.so.16 \
+  /usr/lib/libpng16.so.16 \
+  /usr/lib32/libbrotlidec.so.1 \
+  /usr/lib/libbrotlidec.so.1 \
+  /usr/lib32/libbrotlicommon.so.1 \
+  /usr/lib/libbrotlicommon.so.1
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/Scrt1.o:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crti.o:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/crtbeginS.o:
+
+CMakeFiles/AudioPlayer.dir/Source/Main.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Source/MainComponent.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Source/Playlists.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Source/RecentFiles.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_basics/juce_audio_basics.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_core/juce_core.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_core/juce_core_CompilationTime.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_core/juce_core_zlib.c.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_devices/juce_audio_devices.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_events/juce_events.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_formats/juce_audio_formats.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_formats/juce_audio_formats_flac_1.c.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_formats/juce_audio_formats_flac_2.c.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_processors/juce_audio_processors.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_gui_extra/juce_gui_extra.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_gui_basics/juce_gui_basics.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_gui_basics/juce_gui_basics_2.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_gui_basics/juce_gui_basics_3.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_gui_basics/juce_gui_basics_4.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_gui_basics/juce_gui_basics_5.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics_Sheenbidi.c.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics_libjpg_1.c.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics_libjpg_2.c.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics_libjpg_3.c.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics_libpng.c.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_graphics/juce_graphics_lunasvg.c.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_data_structures/juce_data_structures.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_ara.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_processors_headless/juce_audio_processors_headless_lv2_libs.cpp.o:
+
+CMakeFiles/AudioPlayer.dir/Include/JUCE/modules/juce_audio_utils/juce_audio_utils.cpp.o:
+
+/usr/lib/libasound.so:
+
+/usr/lib/libfontconfig.so:
+
+/usr/lib/libfreetype.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/librt.a:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libdl.a:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libpthread.a:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libstdc++.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libm.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libm.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libm.so:
+
+/usr/lib/libm.so.6:
+
+/usr/lib/libmvec.so.1:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc_s.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc_s.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc_s.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libgcc_s.so.1:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc.a:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc.a:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libatomic_asneeded.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libatomic_asneeded.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libatomic_asneeded.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libatomic.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libc.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libc.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libc.so:
+
+/usr/lib/libc.so.6:
+
+/usr/lib/libc_nonshared.a:
+
+/usr/lib/ld-linux-x86-64.so.2:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc_s.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc_s.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc_s.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/libgcc_s.so.1:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc.a:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libgcc.a:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/crtendS.o:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/../../../../lib/crtn.o:
+
+/usr/lib/ld-linux-x86-64.so.2:
+
+/usr/lib32/libexpat.so.1:
+
+/usr/lib/libexpat.so.1:
+
+/usr/lib32/libz.so.1:
+
+/usr/lib/libz.so.1:
+
+/usr/lib32/libbz2.so.1.0:
+
+/usr/lib/libbz2.so.1.0:
+
+/usr/lib32/libpng16.so.16:
+
+/usr/lib/libpng16.so.16:
+
+/usr/lib32/libbrotlidec.so.1:
+
+/usr/lib/libbrotlidec.so.1:
+
+/usr/lib32/libbrotlicommon.so.1:
+
+/usr/lib/libbrotlicommon.so.1:

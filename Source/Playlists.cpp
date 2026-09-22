@@ -8,7 +8,6 @@
   ==============================================================================
 */
 
-#include <JuceHeader.h>
 #include "Playlists.h"
 
 Playlists::Playlists() : menuState(List), library(ID::Library), addMenu(library), listMenu(library)
