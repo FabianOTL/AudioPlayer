@@ -4,6 +4,13 @@ project(AudioPlayer VERSION 1.0.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Ignore warning 
+if(MSVC)
+    add_compile_options(/W0)
+else()
+    add_compile_options(-w)
+endif()
+
 add_subdirectory(Include/JUCE)
 
 juce_add_gui_app(AudioPlayer

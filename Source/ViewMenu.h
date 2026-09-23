@@ -21,7 +21,7 @@ class ViewMenu  : public juce::Component
 public:
 
     juce::ImageComponent imageComponent;
-    juce::Label playlistNameLabel;
+    juce::TextEditor playlistNameTextBox;
     juce::TextButton backButton, addTrackButton, deletePlaylistButton;
     juce::ValueTree playlistVT;
     std::unique_ptr<juce::FileChooser> chooser;
@@ -35,18 +35,20 @@ public:
     {
         setSize(675, 300);
 
+        playlistNameTextBox.setColour(juce::TextEditor::outlineColourId, juce::Colours::transparentBlack);
+        playlistNameTextBox.setColour(juce::TextEditor::focusedOutlineColourId, juce::Colours::transparentBlack);
+
         backButton.setButtonText("Back"); 
+        backButton.setColour(juce::ComboBox::outlineColourId, juce::Colours::transparentBlack);
         addAndMakeVisible(&backButton);
 
         addTrackButton.setButtonText("Add Track");
-        addTrackButton.onClick = [this] ()
-        {
-            addTrack();
-        };
+        addTrackButton.onClick = [this] () { addTrack(); };
+        addTrackButton.setColour(juce::ComboBox::outlineColourId, juce::Colours::transparentBlack);
         addAndMakeVisible(&addTrackButton);
 
         deletePlaylistButton.setButtonText("Delete");
-
+        deletePlaylistButton.setColour(juce::ComboBox::outlineColourId, juce::Colours::transparentBlack);
         addAndMakeVisible(&deletePlaylistButton);
     }
 
@@ -77,9 +79,18 @@ public:
         addAndMakeVisible(&imageComponent);
 
         juce::String playlistName = playlist.getPropertyAsValue(ID::PlaylistName, nullptr).toString();
-        playlistNameLabel.setText(playlistName, juce::NotificationType::dontSendNotification);
-        playlistNameLabel.setJustificationType(juce::Justification(36));
-        addAndMakeVisible(&playlistNameLabel);
+        playlistNameTextBox.setText(playlistName, juce::NotificationType::dontSendNotification);
+        playlistNameTextBox.setJustification(juce::Justification(36));
+
+        playlistNameTextBox.onReturnKey = [this] ()
+        {
+            playlistVT.setProperty(ID::PlaylistName, playlistNameTextBox.getText(), nullptr);
+            if(auto xml = playlistVT.getParent().createXml())
+                xml -> writeTo(juce::File(appData + "/AudioPlayer/library.xml"));
+            giveAwayKeyboardFocus();
+        };
+
+        addAndMakeVisible(&playlistNameTextBox);
 
         // The right side 
         
@@ -97,7 +108,10 @@ public:
                 playQ->clear();
                 for(int delta = 1;i+delta<noTracks;delta++)
                     playQ->add(trackVT.getSibling(delta));
-            };
+            }; 
+
+            btn->setColour(juce::ComboBox::outlineColourId, juce::Colours::transparentBlack);
+
             addAndMakeVisible(btn.get());
 
             auto del = std::make_unique<juce::TextButton>("Button");
@@ -106,6 +120,8 @@ public:
             del -> onClick = [this, toDelete] () {
                 deleteTrack(toDelete);
             };
+            del->setColour(juce::ComboBox::outlineColourId, juce::Colours::transparentBlack);
+
             addAndMakeVisible(del.get());
 
             auto qbtn = std::make_unique<juce::TextButton>("Button");
@@ -114,6 +130,8 @@ public:
             {
                 userQ->add(trackVT);
             };
+            qbtn->setColour(juce::ComboBox::outlineColourId, juce::Colours::transparentBlack);
+
             addAndMakeVisible(qbtn.get());
                 
             tracks.push_back(std::move(btn));
@@ -144,6 +162,9 @@ public:
                 btn->onClick=[this, file] (){
                     loadFile(file);
                 };
+
+                btn->setColour(juce::ComboBox::outlineColourId, juce::Colours::transparentBlack);
+
                 addAndMakeVisible(btn.get());
 
                 auto del = std::make_unique<juce::TextButton>("Button");
@@ -152,6 +173,8 @@ public:
                 {
                     deleteTrack(trackVT);
                 };
+                del->setColour(juce::ComboBox::outlineColourId, juce::Colours::transparentBlack);
+
                 addAndMakeVisible(del.get());
 
                 auto qbtn = std::make_unique<juce::TextButton>("Button");
@@ -160,6 +183,7 @@ public:
                 {
                     userQ->add(trackVT);
                 };
+                qbtn->setColour(juce::ComboBox::outlineColourId, juce::Colours::transparentBlack);
                 addAndMakeVisible(qbtn.get());
 
                 playlistVT.appendChild(trackVT, nullptr);  
@@ -192,7 +216,7 @@ public:
         
         //left side
         imageComponent.setBounds(left.removeFromTop(150));
-        playlistNameLabel.setBounds(left.removeFromTop(50));
+        playlistNameTextBox.setBounds(left.removeFromTop(50));
         auto row = left.removeFromTop(50);
         addTrackButton.setBounds(row.removeFromLeft(75));
         deletePlaylistButton.setBounds(row.removeFromLeft(75));
