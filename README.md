@@ -1,4 +1,4 @@
-![](https://github.com/FabianOTL/AudioPlayer/blob/README/Resources/Preview.gif)
+![](https://github.com/FabianOTL/AudioPlayer/blob/main/Resources/Preview.gif)
 
 
 What is this?
