@@ -58,8 +58,7 @@ public:
         pictureButton.onClick = [this]  
         {
             chooser = std::make_unique<juce::FileChooser> ("Select a picture", juce::File {}, "*.jpg,*.png");
-            auto chooserFlag = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
-            
+            auto chooserFlag = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles; 
 
             auto open = [this] (const juce::FileChooser& fc)
             {

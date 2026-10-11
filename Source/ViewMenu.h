@@ -20,7 +20,7 @@ class ViewMenu  : public juce::Component
 {
 public:
 
-    juce::ImageComponent imageComponent;
+    juce::ImageButton imageButton;
     juce::TextEditor playlistNameTextBox;
     juce::TextButton backButton, addTrackButton, deletePlaylistButton;
     juce::ValueTree playlistVT;
@@ -77,10 +77,31 @@ public:
             imagePath = defaultPlaylistImagePath;
 
         juce::Image image = juce::ImageFileFormat::loadFrom(juce::File(imagePath)); 
-        imageComponent.setImage(image);
-        imageComponent.setImagePlacement(juce::RectanglePlacement(64));
- 
-        addAndMakeVisible(&imageComponent);
+        imageButton.setImages(false, true, false,image, 1.0f, juce::Colours::transparentBlack,image, 1.0f, juce::Colours::transparentBlack, image, 1.0f, juce::Colours::transparentBlack);
+        imageButton.onClick = [this] (){
+            
+            chooser = std::make_unique<juce::FileChooser> ("Select a picture", juce::File {}, "*.jpg,*.png");
+            auto chooserFlag = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles; 
+
+            auto open = [this] (const juce::FileChooser& fc)
+            {
+                auto file = fc.getResult();
+
+                if(file != juce::File {})
+                {
+                    juce::Image image = juce::ImageFileFormat::loadFrom(file);
+                    imageButton.setImages(false, true, false, image, 1.0f, juce::Colours::transparentBlack, image, 1.0f, juce::Colours::transparentBlack, image, 1.0f, juce::Colours::transparentBlack);
+                
+                    playlistVT.setProperty(ID::PlaylistCover, file.getFullPathName(), nullptr);
+
+                    if(auto xml = playlistVT.getParent().createXml())
+                        xml -> writeTo(juce::File(appData + "/AudioPlayer/library.xml"));
+                }
+            };
+            chooser -> launchAsync(chooserFlag, open);
+
+                   };
+        addAndMakeVisible(&imageButton);
 
         juce::String playlistName = playlist.getPropertyAsValue(ID::PlaylistName, nullptr).toString();
         playlistNameTextBox.setText(playlistName, juce::NotificationType::dontSendNotification);
@@ -231,7 +252,7 @@ public:
         auto left = right.removeFromLeft(150);
         
         //left side
-        imageComponent.setBounds(left.removeFromTop(150));
+        imageButton.setBounds(left.removeFromTop(150));
         playlistNameTextBox.setBounds(left.removeFromTop(50));
         auto row = left.removeFromTop(50);
         addTrackButton.setBounds(row.removeFromLeft(75));
