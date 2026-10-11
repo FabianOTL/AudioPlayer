@@ -115,6 +115,10 @@ public:
     {
         std::unique_ptr<juce::ImageButton> playlistButton = std::make_unique<juce::ImageButton>("Button");
         juce::String imagePath = playlistVT.getPropertyAsValue(ID::PlaylistCover, nullptr).toString();
+
+        if(juce::File(imagePath).existsAsFile() == false)
+            imagePath = defaultPlaylistImagePath;
+
         juce::Image playlistImage = juce::ImageFileFormat::loadFrom(juce::File(imagePath));
 
         playlistButton->setImages(

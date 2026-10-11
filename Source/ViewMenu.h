@@ -72,6 +72,10 @@ public:
         // The left side of the menu (cover, title and back button)
 
         juce::String imagePath = playlist.getPropertyAsValue(ID::PlaylistCover, nullptr).toString();
+
+        if(juce::File(imagePath).existsAsFile() == false)
+            imagePath = defaultPlaylistImagePath;
+
         juce::Image image = juce::ImageFileFormat::loadFrom(juce::File(imagePath)); 
         imageComponent.setImage(image);
         imageComponent.setImagePlacement(juce::RectanglePlacement(64));
@@ -99,6 +103,14 @@ public:
         {
             juce::ValueTree trackVT = playlist.getChild(i);
             juce::String trackPath = trackVT.getPropertyAsValue(ID::TrackPath, nullptr).toString();
+
+            if(juce::File(trackPath).existsAsFile() == false)
+            {
+                playlist.removeChild(i, nullptr);
+                i--; // because we removed a child the next one is at the same index
+                noTracks--;
+                continue;
+            }
 
             auto btn = std::make_unique<juce::TextButton>("Button");
             btn->setButtonText(juce::File(trackPath).getFileName());
@@ -138,6 +150,10 @@ public:
             deletes.push_back(std::move(del));
             queueButtons.push_back(std::move(qbtn));
         }
+
+        // in case we deleted a track, we save the xml again 
+        if(auto xml = playlist.getParent().createXml())
+                xml -> writeTo(juce::File(appData + "/AudioPlayer/library.xml"));
 
         setSize(675, std::max(300,static_cast<int>(tracks.size()*50)));
         resized();

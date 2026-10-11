@@ -31,4 +31,4 @@ namespace ID
 
 inline juce::String appData = juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory).getFullPathName();
 inline juce::String projectDir = juce::File::getSpecialLocation(juce::File::SpecialLocationType::currentExecutableFile).getParentDirectory().getParentDirectory().getParentDirectory().getParentDirectory().getFullPathName();
-
+inline juce::String defaultPlaylistImagePath = projectDir + "/Resources/default.jpeg";
