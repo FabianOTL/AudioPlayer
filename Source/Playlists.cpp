@@ -45,7 +45,7 @@ Playlists::Playlists() : menuState(List), library(ID::Library), addMenu(library)
 
     listMenu.createPlaylists();
 
-    addMenu.backButton.onClick = [this] () {
+    addMenu.backButton.onClick = [this] () { 
         changeMenuState(MenuState::List);
     };
 
@@ -67,6 +67,11 @@ Playlists::Playlists() : menuState(List), library(ID::Library), addMenu(library)
 
     viewMenu.backButton.onClick = [this] ()
     {
+        // Save the new name (if renamed)
+        viewMenu.playlistVT.setProperty(ID::PlaylistName, viewMenu.playlistNameTextBox.getText(), nullptr);
+        if(auto xml = viewMenu.playlistVT.getParent().createXml())
+            xml -> writeTo(juce::File(appData + "/AudioPlayer/library.xml"));
+        // Show the other playlists 
         changeMenuState(MenuState::List);
     };
 
